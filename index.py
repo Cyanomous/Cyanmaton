@@ -12,7 +12,7 @@ intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
 
-os.chdir("C:\\Users\\justi_jtw\\Bot\\Cyanmaton")
+os.chdir("Same thing in cogs.economy")
 
 
 def get_prefix(bot, message):
