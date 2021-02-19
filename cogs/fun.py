@@ -215,7 +215,70 @@ class FunCog(commands.Cog):
                 return await ctx.send('No cat found :(')
             js = await resp.json()
             await ctx.send(embed=discord.Embed(title='Random Cat').set_image(url=js[0]['url']))
+     
+    @commands.command(name="spam")
+    async def spam(self,ctx, member:discord.Member):
+        rannge = range(1, 40)
+        await ctx.channel.send('how many times to fuck this user chose 1-40')
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel and \
+                   int(msg.content) in rannge
+        msg = await self.bot.wait_for("message", check=check)
+        times = int(msg.content)
+        while True:
+            #await ctx.channel.send(f"haha i spam  {member.mention}!")
+            await member.send( "hahahhaa  i spam you :D , i fuck you hahahah")
+            times = times - 1
+            time.sleep(2)
+            if times == 0:
+                break
+      @commands.command(name="calculateage")
+      async def calculate_age(self, ctx):
+        # getting the current date
+        now = datetime.datetime.now()
+        current_day = int(now.strftime('%d'))
+        current_month = int(now.strftime('%m'))
+        current_year = int(now.strftime('%y')) + 2000
+        await ctx.author.send('Type your age in this form : yyyymmdd')
+        rannge = range(19500101, 20211231)
 
+        def check(msg):
+            return msg.author == ctx.author and \
+                   int(msg.content) in rannge
 
+        msg = await self.bot.wait_for("message", check=check)
+        age = int(msg.content)
+        user_year = int(age / 10000)
+        user_month = int((age % 10000) / 100)
+        user_day = int(age % 100)
+        await ctx.author.send(f"Birthday : {user_day}  / {user_month} / {user_year}  ")
+        await ctx.author.send(f"\nCurent date : {current_day} / {current_month} / {current_year}")
+        # if birth date is greater then current birth_month
+        # then donot count this month and add 30 to the date so
+        # as to subtract the date and get the remaining days
+
+        month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        if (user_day > current_day):
+            current_month = current_month - 1
+            current_day = current_day + month[user_month - 1]
+
+        # if birth month exceeds current month, then
+        # donot count this year and add 12 to the
+        # month so that we can subtract and find out
+        # the difference
+        if (user_month > current_month):
+            current_year = current_year - 1
+            current_month = current_month + 12
+
+        # calculate date, month, year
+        calculated_date = current_day - user_day
+        calculated_month = current_month - user_month
+        calculated_year = current_year - user_year
+
+        # print present age
+        await ctx.author.send(f"you are {calculated_year}  years ")
+        await ctx.author.send(f"        {calculated_month} month(s) and ")
+        await ctx.author.send(f"        {calculated_date}   days old ")
+        
 def setup(bot):
     bot.add_cog(FunCog(bot))

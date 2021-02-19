@@ -60,6 +60,24 @@ class ModerationCog(commands.Cog):
     async def removerole(self, ctx, user: discord.Member, *, role: discord.Role):
         await user.remove_roles(role, reason=None, atomic=True)
         await ctx.send(f"Hey {ctx.author.name}, I have sucesfully removed the role {role.name} from {user.name}!")
+        
+    @commands.command(name="clear")
+    async def clear(self,ctx, limit: int = None):
+        passed = 0
+        failed = 0
+        async for msg in ctx.message.channel.history(limit=limit):
+             try:
+                await msg.delete()
+                passed += 1
+             except:
+                    failed += 1
+        await ctx.send(f"Removed {passed} messages with {failed} fails")
+        time.sleep(2)
+        async for msg in ctx.message.channel.history(limit=1) :
+            try:
+                await msg.delete()
+            except:
+                await ctx.send(f"failed to delete bot's last words")
 
 
 def setup(bot):
