@@ -217,9 +217,10 @@ class FunCog(commands.Cog):
             await ctx.send(embed=discord.Embed(title='Random Cat').set_image(url=js[0]['url']))
      
     @commands.command(name="spam")
+    @commands.cooldown(1, 160 , commands.BucketType.user)
     async def spam(self,ctx, member:discord.Member):
-        rannge = range(1, 40)
-        await ctx.channel.send('how many times to fuck this user chose 1-40')
+        rannge = range(1, 20)
+        await ctx.channel.send('how many times to spam this user chose 1-20')
         def check(msg):
             return msg.author == ctx.author and msg.channel == ctx.channel and \
                    int(msg.content) in rannge
@@ -227,11 +228,12 @@ class FunCog(commands.Cog):
         times = int(msg.content)
         while True:
             #await ctx.channel.send(f"haha i spam  {member.mention}!")
-            await member.send( "hahahhaa  i spam you :D , i fuck you hahahah")
+            await member.send( "hahahhaa  i spam you :D , i spam you hahahah")
             times = times - 1
-            time.sleep(2)
+            await asyncio.sleep(2)
             if times == 0:
                 break
+                
       @commands.command(name="calculateage")
       async def calculate_age(self, ctx):
         # getting the current date
